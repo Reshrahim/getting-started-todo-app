@@ -55,16 +55,36 @@ resource loadbalancer_3 'Radius.Network/loadBalancers@2025-08-01-preview' = {
 }
 
 
-// Container: backend
+// Container: backend (includes bundled frontend static files)
 resource backend 'Applications.Core/containers@2023-10-01-preview' = {
   name: 'backend'
   properties: {
     application: app.id
     container: {
-      image: 'nginx:alpine' // Using nginx for testing - replace with actual image
+      image: 'ghcr.io/reshrahim/todoapp-backend:latest'
       ports: {
         http: {
-          containerPort: 80
+          containerPort: 3000
+        }
+      }
+      env: {
+        MYSQL_HOST: {
+          value: mysql_2.properties.host
+        }
+        MYSQL_USER: {
+          value: mysql_2.properties.username
+        }
+        MYSQL_PASSWORD: {
+          value: mysql_2.secrets('password')
+        }
+        MYSQL_DB: {
+          value: mysql_2.properties.database
+        }
+        REDIS_HOST: {
+          value: redis_1.properties.host
+        }
+        REDIS_PORT: {
+          value: string(redis_1.properties.port)
         }
       }
     }
@@ -80,19 +100,6 @@ resource backend 'Applications.Core/containers@2023-10-01-preview' = {
 }
 
 
-// Container: client
-resource client 'Applications.Core/containers@2023-10-01-preview' = {
-  name: 'client'
-  properties: {
-    application: app.id
-    container: {
-      image: 'nginx:alpine' // Using nginx for testing - replace with actual image
-      ports: {
-        http: {
-          containerPort: 80
-        }
-      }
-    }
-  }
-}
+// Note: Client is bundled with backend in production build
+// Removing separate client container as frontend is served as static files from backend
 
