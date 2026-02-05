@@ -7,8 +7,8 @@
 // ============================================================================
 
 extension radius
-extension radiusnetwork
 extension radiusdata
+extension radiusnetwork
 
 @description('The Radius environment to deploy to')
 param environment string
