@@ -1,0 +1,243 @@
+{
+  "projectPath": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app",
+  "analyzedAt": "2026-02-05T10:18:39.117856-05:00",
+  "analyzerVersion": "edge",
+  "services": [
+    {
+      "name": "backend",
+      "path": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/backend",
+      "language": "javascript",
+      "dockerfile": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/Dockerfile",
+      "exposedPorts": [
+        3000
+      ],
+      "entryPoint": {
+        "type": "main",
+        "file": "index.js"
+      },
+      "dependencyIds": [
+        "redis-1",
+        "mysql-2"
+      ],
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "type": "package-manifest",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/backend/package.json",
+          "line": 1,
+          "snippet": "\"name\": \"backend\""
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/compose.yaml",
+          "line": 0,
+          "snippet": "compose service: backend"
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/Dockerfile",
+          "line": 0,
+          "snippet": "Dockerfile with base: base"
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/dockerfile",
+          "line": 0,
+          "snippet": "Dockerfile with base: base"
+        }
+      ]
+    },
+    {
+      "name": "client",
+      "path": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/client",
+      "language": "javascript",
+      "entryPoint": {
+        "type": "",
+        "file": ""
+      },
+      "dependencyIds": null,
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "type": "package-manifest",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/client/package.json",
+          "line": 1,
+          "snippet": "\"name\": \"client\""
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/compose.yaml",
+          "line": 0,
+          "snippet": "compose service: client"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "redis-1",
+      "type": "redis",
+      "name": "ioredis",
+      "library": "ioredis",
+      "version": "^5.4.1",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "type": "package-manifest",
+          "file": "backend/package.json",
+          "line": 1,
+          "snippet": "\"ioredis\": \"^5.4.1\""
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/compose.yaml",
+          "line": 0,
+          "snippet": "compose service: redis (image: redis:7.4-alpine)"
+        }
+      ],
+      "defaultPort": 6379,
+      "usedBy": [
+        "backend"
+      ]
+    },
+    {
+      "id": "mysql-2",
+      "type": "mysql",
+      "name": "mysql2",
+      "library": "mysql2",
+      "version": "^3.14.1",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "type": "package-manifest",
+          "file": "backend/package.json",
+          "line": 1,
+          "snippet": "\"mysql2\": \"^3.14.1\""
+        },
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/compose.yaml",
+          "line": 0,
+          "snippet": "compose service: mysql (image: mysql:9.3)"
+        }
+      ],
+      "connectionEnv": "MYSQL_URL",
+      "defaultPort": 3306,
+      "usedBy": [
+        "backend"
+      ]
+    },
+    {
+      "id": "loadbalancer-3",
+      "type": "loadbalancer",
+      "name": "proxy",
+      "library": "traefik:v3.6",
+      "confidence": 0.9,
+      "evidence": [
+        {
+          "type": "import",
+          "file": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/compose.yaml",
+          "line": 0,
+          "snippet": "compose service: proxy (image: traefik:v3.6)"
+        }
+      ],
+      "usedBy": null
+    }
+  ],
+  "practices": {
+    "namingConvention": {
+      "pattern": "",
+      "examples": null,
+      "confidence": 0
+    },
+    "tags": {
+      "CostCenter": "todoapp-retail",
+      "ManagedBy": "Terraform",
+      "Owner": "platform-team"
+    },
+    "environment": "dev, prod",
+    "region": "eastus",
+    "encryptionEnabled": false,
+    "privateNetworking": false,
+    "defaultTier": "dev: B_Standard_B1ms, Basic • prod: GP_Standard_D2ds_v4, Premium",
+    "extractedFrom": [
+      {
+        "type": "terraform",
+        "filePath": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/infra/main.tf",
+        "resources": [
+          {
+            "type": "azurerm_resource_group",
+            "name": "main"
+          },
+          {
+            "type": "azurerm_mysql_flexible_server",
+            "name": "main"
+          },
+          {
+            "type": "azurerm_mysql_flexible_database",
+            "name": "todos"
+          },
+          {
+            "type": "azurerm_redis_cache",
+            "name": "main"
+          }
+        ],
+        "providers": [
+          "azurerm"
+        ]
+      },
+      {
+        "type": "terraform",
+        "filePath": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/infra/outputs.tf"
+      },
+      {
+        "type": "terraform",
+        "filePath": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app/infra/variables.tf"
+      }
+    ]
+  },
+  "resourceTypes": [
+    {
+      "dependencyId": "redis-1",
+      "resourceType": {
+        "name": "Radius.Data/redisCaches",
+        "apiVersion": "2025-08-01-preview",
+        "properties": {
+          "capacity": "M",
+          "host": "",
+          "port": 6379
+        },
+        "schema": "https://raw.githubusercontent.com/radius-project/resource-types-contrib/main/resources/Radius.Data/redisCaches/types.json"
+      },
+      "matchSource": "catalog",
+      "confidence": 0.9025
+    },
+    {
+      "dependencyId": "mysql-2",
+      "resourceType": {
+        "name": "Radius.Data/mySqlDatabases",
+        "apiVersion": "2025-08-01-preview",
+        "properties": {
+          "database": "mysql",
+          "username": "root",
+          "version": "8.4"
+        },
+        "schema": "https://raw.githubusercontent.com/radius-project/resource-types-contrib/main/resources/Radius.Data/mySqlDatabases/types.json"
+      },
+      "matchSource": "catalog",
+      "confidence": 0.9025
+    },
+    {
+      "dependencyId": "loadbalancer-3",
+      "resourceType": {
+        "name": "Radius.Network/loadBalancers",
+        "apiVersion": "2025-08-01-preview"
+      },
+      "matchSource": "contrib",
+      "confidence": 0.855
+    }
+  ],
+  "recipes": [],
+  "warnings": [],
+  "confidence": 0.8800000000000001
+}
