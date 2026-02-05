@@ -61,10 +61,10 @@ resource backend 'Applications.Core/containers@2023-10-01-preview' = {
   properties: {
     application: app.id
     container: {
-      image: 'backend:latest' // TODO: Update with actual image
+      image: 'nginx:alpine' // Using nginx for testing - replace with actual image
       ports: {
         http: {
-          containerPort: 3000
+          containerPort: 80
         }
       }
     }
@@ -86,7 +86,13 @@ resource client 'Applications.Core/containers@2023-10-01-preview' = {
   properties: {
     application: app.id
     container: {
-      image: 'client:latest' // TODO: Update with actual image
-    }  }
+      image: 'nginx:alpine' // Using nginx for testing - replace with actual image
+      ports: {
+        http: {
+          containerPort: 80
+        }
+      }
+    }
+  }
 }
 
