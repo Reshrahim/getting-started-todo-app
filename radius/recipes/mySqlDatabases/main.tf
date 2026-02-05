@@ -21,6 +21,8 @@ provider "azurerm" {
   features {}
   # Disable Azure CLI auth - Radius injects service principal credentials via ARM_* env vars
   use_cli = false
+  # subscription_id is required for azurerm provider version 4.x
+  subscription_id = var.context.azure.subscription.subscriptionId
 }
 
 variable "context" {

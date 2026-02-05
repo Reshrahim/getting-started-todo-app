@@ -68,7 +68,7 @@ resource backend 'Applications.Core/containers@2023-10-01-preview' = {
     application: app.id
     environment: environment
     container: {
-      image: '' // TODO: Update with actual image
+      image: 'ghcr.io/reshrahim/todoapp-backend:latest' // TODO: Update with actual image
       ports: {
         http: {
           containerPort: 3000
@@ -87,16 +87,16 @@ resource backend 'Applications.Core/containers@2023-10-01-preview' = {
 }
 
 
-// Container: client
-resource client 'Applications.Core/containers@2023-10-01-preview' = {
-  name: 'client'
-  location: 'global'
-  properties: {
-    application: app.id
-    environment: environment
-    container: {
-      image: 'client:latest' // TODO: Update with actual image
-    }
-  }
-}
+// // Container: client
+// resource client 'Applications.Core/containers@2023-10-01-preview' = {
+//   name: 'client'
+//   location: 'global'
+//   properties: {
+//     application: app.id
+//     environment: environment
+//     container: {
+//       image: 'client:latest' // TODO: Update with actual image
+//     }
+//   }
+// }
 
