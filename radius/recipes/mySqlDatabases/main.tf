@@ -51,13 +51,13 @@ resource "random_password" "admin_password" {
 # Azure Database for MySQL Flexible Server using AVM module
 module "mysql" {
   source  = "Azure/avm-res-dbformysql-flexibleserver/azurerm"
-  version = "~> 0.3"
+  version = "0.1.5"
 
-  name                = "${local.name}-${random_string.suffix.result}"
-  resource_group_name = local.resource_group
-  location            = local.location
-  sku_name            = local.sku_name
-  version             = local.mysql_version
+  name                          = "${local.name}-${random_string.suffix.result}"
+  resource_group_name           = local.resource_group
+  location                      = local.location
+  sku_name                      = local.sku_name
+  mysql_flexible_server_version = local.mysql_version
 
   administrator_login    = "mysqladmin"
   administrator_password = random_password.admin_password.result

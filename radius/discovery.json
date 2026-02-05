@@ -1,6 +1,6 @@
 {
   "projectPath": "/Users/reshmaabdulrahim/Documents/GitHub/radius-project/getting-started-todo-app",
-  "analyzedAt": "2026-02-05T10:18:39.117856-05:00",
+  "analyzedAt": "2026-02-05T10:22:40.155933-05:00",
   "analyzerVersion": "edge",
   "services": [
     {
@@ -159,7 +159,7 @@
     "region": "eastus",
     "encryptionEnabled": false,
     "privateNetworking": false,
-    "defaultTier": "dev: B_Standard_B1ms, Basic • prod: GP_Standard_D2ds_v4, Premium",
+    "defaultTier": "dev: B_Standard_B1ms, Basic • prod: Premium, GP_Standard_D2ds_v4",
     "extractedFrom": [
       {
         "type": "terraform",
