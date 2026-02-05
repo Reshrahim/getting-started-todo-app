@@ -3,12 +3,12 @@
 # Uses Azure Verified Module (AVM): Azure/avm-res-network-loadbalancer/azurerm
 
 terraform {
-  required_version = ">= 1.9.0, < 2.0.0"
+  required_version = ">= 1.5.0"
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 4.0.0, < 5.0.0"
+      version = ">= 3.71.0, < 4.0.0"  # Use 3.x for compatibility with ARM_* env vars
     }
     random = {
       source  = "hashicorp/random"
@@ -19,10 +19,8 @@ terraform {
 
 provider "azurerm" {
   features {}
-  # Disable Azure CLI auth - Radius injects service principal credentials via ARM_* env vars
-  use_cli = false
-  # subscription_id is required for azurerm provider version 4.x
-  subscription_id = var.context.azure.subscription.subscriptionId
+  # Radius injects service principal credentials via ARM_* environment variables
+  # azurerm 3.x automatically picks up ARM_CLIENT_ID, ARM_CLIENT_SECRET, ARM_TENANT_ID, ARM_SUBSCRIPTION_ID
 }
 
 variable "context" {
