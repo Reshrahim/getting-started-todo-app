@@ -46,8 +46,8 @@ resource "azurerm_public_ip" "main" {
   sku                 = "Standard"
 
   tags = merge(local.tags, {
-    "radapp.io/resource"    = var.context.resource.id
-    "radapp.io/environment" = var.context.environment.id
+    "radapp-resource"    = var.context.resource.id
+    "radapp-environment" = var.context.environment.id
   })
 }
 
@@ -64,8 +64,8 @@ resource "azurerm_lb" "main" {
   }
 
   tags = merge(local.tags, {
-    "radapp.io/resource"    = var.context.resource.id
-    "radapp.io/environment" = var.context.environment.id
+    "radapp-resource"    = var.context.resource.id
+    "radapp-environment" = var.context.environment.id
   })
 }
 

@@ -48,8 +48,8 @@ resource "azurerm_redis_cache" "main" {
   sku_name            = "Basic"
 
   tags = merge(local.tags, {
-    "radapp.io/resource"    = var.context.resource.id
-    "radapp.io/environment" = var.context.environment.id
+    "radapp-resource"    = var.context.resource.id
+    "radapp-environment" = var.context.environment.id
   })
 }
 

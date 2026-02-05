@@ -56,8 +56,8 @@ resource "azurerm_mysql_flexible_server" "main" {
   version                = "8.0.21"
 
   tags = merge(local.tags, {
-    "radapp.io/resource"    = var.context.resource.id
-    "radapp.io/environment" = var.context.environment.id
+    "radapp-resource"    = var.context.resource.id
+    "radapp-environment" = var.context.environment.id
   })
 }
 
