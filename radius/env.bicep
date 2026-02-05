@@ -32,6 +32,14 @@ resource env 'Applications.Core/environments@2023-10-01-preview' = {
       }
     }
     recipes: {
+      'Radius.Data/redisCaches': {
+        // Recipe for redisCaches (generated from discovery)
+        // NOTE: Commit and push the recipes/ folder before deploying
+        default: {
+          templateKind: 'terraform'
+          templatePath: 'git::https://github.com/Reshrahim/getting-started-todo-app.git//radius/recipes/redisCaches'
+        }
+      }
       'Radius.Data/mySqlDatabases': {
         // Recipe for mySqlDatabases (generated from discovery)
         // NOTE: Commit and push the recipes/ folder before deploying
@@ -46,14 +54,6 @@ resource env 'Applications.Core/environments@2023-10-01-preview' = {
         default: {
           templateKind: 'terraform'
           templatePath: 'git::https://github.com/Reshrahim/getting-started-todo-app.git//radius/recipes/loadBalancers'
-        }
-      }
-      'Radius.Data/redisCaches': {
-        // Recipe for redisCaches (generated from discovery)
-        // NOTE: Commit and push the recipes/ folder before deploying
-        default: {
-          templateKind: 'terraform'
-          templatePath: 'git::https://github.com/Reshrahim/getting-started-todo-app.git//radius/recipes/redisCaches'
         }
       }
     }

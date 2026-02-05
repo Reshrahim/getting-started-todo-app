@@ -10,7 +10,7 @@ extension radius
 extension radiusdata
 extension radiusnetwork
 
-@description('The Radius environment to deploy to')
+@description('The Radius environment ID to deploy to')
 param environment string
 
 @description('The application name')
@@ -19,6 +19,7 @@ param applicationName string = 'getting-started-todo-app'
 
 resource app 'Applications.Core/applications@2023-10-01-preview' = {
   name: applicationName
+  location: 'global'
   properties: {
     environment: environment
   }
@@ -26,8 +27,9 @@ resource app 'Applications.Core/applications@2023-10-01-preview' = {
 
 
 // redis resource: ioredis
-resource redis_1 'Radius.Data/redisCaches@2025-08-01-preview' = {
-  name: 'redis_1'
+resource redis 'Radius.Data/redisCaches@2025-08-01-preview' = {
+  name: 'redis'
+  location: 'global'
   properties: {
     application: app.id
     environment: environment
@@ -36,8 +38,9 @@ resource redis_1 'Radius.Data/redisCaches@2025-08-01-preview' = {
 
 
 // mysql resource: mysql2
-resource mysql_2 'Radius.Data/mySqlDatabases@2025-08-01-preview' = {
-  name: 'mysql_2'
+resource mysql 'Radius.Data/mySqlDatabases@2025-08-01-preview' = {
+  name: 'mysql'
+  location: 'global'
   properties: {
     application: app.id
     environment: environment
@@ -46,8 +49,9 @@ resource mysql_2 'Radius.Data/mySqlDatabases@2025-08-01-preview' = {
 
 
 // loadbalancer resource: traefik:v3.6
-resource loadbalancer_3 'Radius.Network/loadBalancers@2025-08-01-preview' = {
-  name: 'loadbalancer_3'
+resource loadbalancer 'Radius.Network/loadBalancers@2025-08-01-preview' = {
+  name: 'loadbalancer'
+  location: 'global'
   properties: {
     application: app.id
     environment: environment
@@ -55,51 +59,44 @@ resource loadbalancer_3 'Radius.Network/loadBalancers@2025-08-01-preview' = {
 }
 
 
-// Container: backend (includes bundled frontend static files)
+// Container: backend
+// Connections automatically inject environment variables for connected resources
 resource backend 'Applications.Core/containers@2023-10-01-preview' = {
   name: 'backend'
+  location: 'global'
   properties: {
     application: app.id
+    environment: environment
     container: {
-      image: 'ghcr.io/reshrahim/todoapp-backend:latest'
+      image: '' // TODO: Update with actual image
       ports: {
         http: {
           containerPort: 3000
         }
       }
-      env: {
-        MYSQL_HOST: {
-          value: mysql_2.properties.host
-        }
-        MYSQL_USER: {
-          value: mysql_2.properties.username
-        }
-        MYSQL_PASSWORD: {
-          value: mysql_2.secrets('password')
-        }
-        MYSQL_DB: {
-          value: mysql_2.properties.database
-        }
-        REDIS_HOST: {
-          value: redis_1.properties.host
-        }
-        REDIS_PORT: {
-          value: string(redis_1.properties.port)
-        }
-      }
     }
     connections: {
-      redis_1: {
-        source: redis_1.id
+      redis: {
+        source: redis.id
       }
-      mysql_2: {
-        source: mysql_2.id
+      mysql: {
+        source: mysql.id
       }
     }
   }
 }
 
 
-// Note: Client is bundled with backend in production build
-// Removing separate client container as frontend is served as static files from backend
+// Container: client
+resource client 'Applications.Core/containers@2023-10-01-preview' = {
+  name: 'client'
+  location: 'global'
+  properties: {
+    application: app.id
+    environment: environment
+    container: {
+      image: 'client:latest' // TODO: Update with actual image
+    }
+  }
+}
 
